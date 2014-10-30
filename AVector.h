@@ -13,8 +13,9 @@
 
 
     @section  HISTORY
-    v1.0 - First release
-
+    v1.0.0 - First release
+    v1.0.1 - Switched "set" and "setMag" functions to modify calling object
+             members, and return void instead of a new AVector object.
 */
 /**************************************************************************/
 
