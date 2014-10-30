@@ -57,10 +57,16 @@ myVector.y(); // returns 12
 - `int` `AVector::y()` - return y component
 
 #####Set Component Values:
-- `void` `AVector::set(int x, int y)` - set x,y coordinates from integer values
-- `void` `AVector::set(AVector *otherVector)` - set x,y coordinates from AVector object
-- `void` `AVector::setMag(float magnitude)` - set component values from vector magnitude (hypotenuse)
+- `AVector` `AVector::set(int x, int y)` - set x,y coordinates from integer values and return new AVector object
+- `AVector` `AVector::set(AVector *otherVector)` - set x,y coordinates from AVector object and return new AVector object
+- 
 
-#####Set Component Values:
-- `AVector` `AVector::add(int x, int y)` - add integer components to AVector and return new AVector object
-- `AVector` `AVector::add(AVector *otherVector)` - add components from two AVector objects and return new AVector object
+#####Vector Operations:
+- `AVector` `AVector::add(int x, int y)` - add integer components to AVector object and return new AVector object
+- `AVector` `AVector::add(AVector *otherVector)` - add components of two AVector objects and return new AVector object
+- `AVector` `AVector::sub(int x, int y)` - subtract integer components from AVector object and return new AVector object
+- `AVector` `AVector::sub(AVector *otherVector)` - subtract components of two AVector objects and return new AVector object
+- `AVector` `AVector::mult(int scaler)` - multiply (or scale) vector by arbitrary integer value and return new AVector object
+- `AVector` `AVector::div(int scaler)` - divide (or scale) vector by arbitrary integer value and return new AVector object
+- `AVector` `AVector::setMag(float newMagnitude)` - set component values from vector magnitude (hypotenuse) and return new AVector object
+- 
