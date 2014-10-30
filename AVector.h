@@ -25,19 +25,19 @@
 #include <math.h>
 
 
-class SVector {
+class AVector {
 
 public:
 
-  SVector(int x = 0, int y = 0);
+  AVector(int x = 0, int y = 0);
 
-  SVector
+  AVector
     add(int x, int y),
-    add(SVector *),
+    add(AVector *),
     sub(int x, int y),
-    sub(SVector *),
+    sub(AVector *),
     set(int x, int y),
-    set(SVector *),
+    set(AVector *),
     mult(int),
     div(float),
     rotate(float theta),
@@ -52,13 +52,13 @@ public:
 
   float
     distance(int x, int y),
-    distance(SVector *),
+    distance(AVector *),
     mag(),
     heading(),
-    angleBetween(SVector *),
+    angleBetween(AVector *),
     angleBetween(int x, int y),
     dot(int x, int y),
-    dot(SVector *);
+    dot(AVector *);
 
     unsigned long
       magSq();

@@ -1,0 +1,39 @@
+#######################################
+# Syntax Coloring Map For AVector
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+AVector	 KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+add		KEYWORD2
+sub		KEYWORD2
+set		KEYWORD2
+mult		KEYWORD2
+div		KEYWORD2
+rotate		KEYWORD2
+setMag		KEYWORD2
+x		KEYWORD2
+y		KEYWORD2
+distance	KEYWORD2
+mag		KEYWORD2
+heading		KEYWORD2
+angleBetween	KEYWORD2
+dot		KEYWORD2
+magSq		KEYWORD2
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

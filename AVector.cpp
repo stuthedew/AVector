@@ -24,115 +24,115 @@
 #include "AVector.h"
 
 
-SVector::SVector(int x, int y){
+AVector::AVector(int x, int y){
   _x = x;
   _y = y;
 }
 
-int SVector::x(){
+int AVector::x(){
 
   return _x;
 }
 
-int SVector::y(){
+int AVector::y(){
 
   return _y;
 }
 
-SVector SVector::add(int x, int y){
-  SVector rV(_x+x, _y+y);
+AVector AVector::add(int x, int y){
+  AVector rV(_x+x, _y+y);
 
   return rV;
 }
 
-SVector SVector::add(SVector *v){
-  SVector rV(_x + v->x(), _y + v->y());
+AVector AVector::add(AVector *v){
+  AVector rV(_x + v->x(), _y + v->y());
 
   return rV;
 }
 
-SVector SVector::sub(int x, int y){
-  SVector rV(_x - x, _y - y);
+AVector AVector::sub(int x, int y){
+  AVector rV(_x - x, _y - y);
 
   return rV;
 }
 
-SVector SVector::sub(SVector *v){
-  SVector rV(_x - v->x(), _y - v->y());
+AVector AVector::sub(AVector *v){
+  AVector rV(_x - v->x(), _y - v->y());
 
   return rV;
 }
 
-SVector SVector::set(int x, int y){
-  SVector rV(x, y);
+AVector AVector::set(int x, int y){
+  AVector rV(x, y);
 
   return rV;
 }
 
-SVector SVector::set(SVector *v){
-  SVector rV(v->x(), v->y());
+AVector AVector::set(AVector *v){
+  AVector rV(v->x(), v->y());
 
   return rV;
 }
 
-SVector SVector::mult(int val){
-  SVector rV(_x * val, _y * val);
+AVector AVector::mult(int val){
+  AVector rV(_x * val, _y * val);
 
   return rV;
 }
 
-SVector SVector::div(float val){
-  SVector rV(round(_x / val), round(_y / val));
+AVector AVector::div(float val){
+  AVector rV(round(_x / val), round(_y / val));
 
   return rV;
 }
 
-float SVector::distance(int x, int y){
+float AVector::distance(int x, int y){
 
   return sqrt(pow((x - _x), 2) + pow((y - _y),2));
 }
 
-float SVector::distance(SVector *v){
+float AVector::distance(AVector *v){
 
   return distance(v->x(), v->y());
 }
 
-float SVector::mag(){
+float AVector::mag(){
 
   return sqrt(magSq());
 }
 
-unsigned long SVector::magSq(){
+unsigned long AVector::magSq(){
   unsigned long x = _x;
   unsigned long y = _y;
   return (x*x + y*y);
 }
 
-float SVector::dot(int x, int y){
+float AVector::dot(int x, int y){
   return (_x*x + _y*y);
 }
 
-float SVector::dot(SVector *v){
+float AVector::dot(AVector *v){
   return dot(v->x(), v->y());
 }
 
-float SVector::heading(){
+float AVector::heading(){
   return -1*atan2(-1*_y, _x);
 }
 
-SVector SVector::setMag(float newMag){
-  SVector  rV = mult(newMag);
+AVector AVector::setMag(float newMag){
+  AVector  rV = mult(newMag);
   rV = rV.div(mag());
 
   return rV;
 }
 
-SVector SVector::fromAngle(float theta){
-  SVector rV(round(cos(theta)*100), round(sin(theta)*100));
+AVector AVector::fromAngle(float theta){
+  AVector rV(round(cos(theta)*100), round(sin(theta)*100));
   return rV;
 }
 
-float SVector::angleBetween(SVector *v){
+float AVector::angleBetween(AVector *v){
   // We get NaN if we pass in a zero vector which can cause problems
   // Zero seems like a reasonable angle between a (0,0) vector and something else
   if (_x == 0 && _y == 0) return 0;
@@ -160,14 +160,14 @@ float SVector::angleBetween(SVector *v){
   return acos(amt);
 }
 
-float SVector::angleBetween(int x, int y){
-  SVector rV(x, y);
+float AVector::angleBetween(int x, int y){
+  AVector rV(x, y);
   return angleBetween(&rV);
 }
 
-SVector SVector::rotate(float theta){
+AVector AVector::rotate(float theta){
   int temp = _x;
-  SVector rV(round(_x * cos(theta) - _y*sin(theta)), round(temp*sin(theta) + _y * cos(theta)));
+  AVector rV(round(_x * cos(theta) - _y*sin(theta)), round(temp*sin(theta) + _y * cos(theta)));
 
   return rV;
 }
