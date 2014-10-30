@@ -36,19 +36,10 @@ public:
     add(AVector *),
     sub(int x, int y),
     sub(AVector *),
-    set(int x, int y),
-    set(AVector *),
     mult(int),
     div(float),
     rotate(float theta),
-    setMag(float),
     fromAngle(float theta);
-
-
-  int
-    x(),
-    y();
-
 
   float
     distance(int x, int y),
@@ -60,9 +51,17 @@ public:
     dot(int x, int y),
     dot(AVector *);
 
+  int
+    x(),
+    y();
+
     unsigned long
       magSq();
 
+    void
+      setMag(float),
+      set(int x, int y),
+      set(AVector *);
 
 private:
   int

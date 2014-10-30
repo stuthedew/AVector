@@ -63,16 +63,14 @@ AVector AVector::sub(AVector *v){
   return rV;
 }
 
-AVector AVector::set(int x, int y){
-  AVector rV(x, y);
+void AVector::set(int x, int y){
+  _x = x;
+  _y = y;
 
-  return rV;
 }
 
-AVector AVector::set(AVector *v){
-  AVector rV(v->x(), v->y());
-
-  return rV;
+void AVector::set(AVector *v){
+  set(v->x(), v->y());
 }
 
 AVector AVector::mult(int val){
@@ -120,11 +118,10 @@ float AVector::heading(){
   return -1*atan2(-1*_y, _x);
 }
 
-AVector AVector::setMag(float newMag){
+void AVector::setMag(float newMag){
   AVector  rV = mult(newMag);
   rV = rV.div(mag());
-
-  return rV;
+  set(&rV);
 }
 
 AVector AVector::fromAngle(float theta){
