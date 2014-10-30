@@ -22,3 +22,24 @@ AVector myVector(x, y);
 AVector myVector(); // == AVector myVector(0, 0)
 ```
 
+#### Working with AVector components:
+```c++
+//Simple AVector instance
+AVector myVector(4, 5);
+
+//To access stored component values:
+myVector.x(); // returns 4
+myVector.y(); // returns 5
+
+//To change stored component values:
+myVector.set(8, 10);
+myVector.x(); // returns 8
+myVector.y(); // returns 10
+
+// Also can be set from existing AVector object
+AVector newVector(9, 12);
+
+myVector.set(&newVector);
+myVector.x(); // returns 9
+myVector.y(); // returns 12
+```
