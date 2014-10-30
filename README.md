@@ -13,3 +13,12 @@ A class that describes a 2D vector. This can be used to describe a vector like v
 
 This class also includes common vector operations (addition/subtraction, rotation, dot product etc).
 
+#### To declare an AVector object:
+```c++
+//Simple AVector instance
+AVector myVector(x, y);
+
+//This will declare an AVector with x = 0 and y = 0:
+AVector myVector(); // == AVector myVector(0, 0)
+```
+
