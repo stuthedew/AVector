@@ -5,7 +5,7 @@ My inspiration for writing this is Dan Shiffman's awesome book [The Nature of Co
 
 ## Installation
 
-1. [Download](https://github.com/stuthedew/AVector/releases) the Latest release from gitHub.
+1. [Download](https://github.com/stuthedew/AVector/releases) the latest release from gitHub.
 2. Unzip and modify the Folder name to "AVector" (Remove the '-version')
 3. Paste the modified folder on your Library folder (On your `Libraries` folder inside Sketchbooks or Arduino software).
 
