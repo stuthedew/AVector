@@ -49,13 +49,18 @@ myVector.y(); // returns 12
 ##Libary Reference
 ### `AVector` Class
 
-Initialize:
+#####Initialize:
+- `AVector::AVector(int x = 0, int y = 0)` Initialize new AVector object
+
+#####Access Component Values:
 - `int` `AVector::x()` - return x component
 - `int` `AVector::y()` - return y component
 
-*****
-
+#####Set Component Values:
 - `void` `AVector::set(int x, int y)` - set x,y coordinates from integer values
 - `void` `AVector::set(AVector *otherVector)` - set x,y coordinates from AVector object
+- `void` `AVector::setMag(float magnitude)` - set component values from vector magnitude (hypotenuse)
+
+#####Set Component Values:
 - `AVector` `AVector::add(int x, int y)` - add integer components to AVector and return new AVector object
 - `AVector` `AVector::add(AVector *otherVector)` - add components from two AVector objects and return new AVector object
