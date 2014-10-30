@@ -59,7 +59,6 @@ myVector.y(); // returns 12
 #####Set Component Values:
 - `AVector` `AVector::set(int x, int y)` - set x,y coordinates from integer values and return new AVector object
 - `AVector` `AVector::set(AVector *otherVector)` - set x,y coordinates from AVector object and return new AVector object
-- 
 
 #####Vector Operations:
 - `AVector` `AVector::add(int x, int y)` - add integer components to AVector object and return new AVector object
@@ -69,4 +68,3 @@ myVector.y(); // returns 12
 - `AVector` `AVector::mult(int scaler)` - multiply (or scale) vector by arbitrary integer value and return new AVector object
 - `AVector` `AVector::div(int scaler)` - divide (or scale) vector by arbitrary integer value and return new AVector object
 - `AVector` `AVector::setMag(float newMagnitude)` - set component values from vector magnitude (hypotenuse) and return new AVector object
-- 
