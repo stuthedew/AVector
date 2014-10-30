@@ -43,3 +43,14 @@ myVector.set(&newVector);
 myVector.x(); // returns 9
 myVector.y(); // returns 12
 ```
+
+--------------------------------
+
+##Libary Reference
+### `AVector` Class
+- `int` `AVector::x()` - return x component
+- `int` `AVector::y()` - return y component
+- `void` `AVector::set(int x, int y)` - set x,y coordinates from integer values
+- `void` `AVector::set(AVector *otherVector)` - set x,y coordinates from AVector object
+- `AVector` `AVector::add(int x, int y)` - add integer components to AVector and return new AVector object
+- `AVector` `AVector::add(AVector *otherVector)` - add components from two AVector objects and return new AVector object
