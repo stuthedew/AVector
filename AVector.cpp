@@ -15,8 +15,6 @@
 
     @section  HISTORY
     v1.0.0 - First release
-    v1.0.1 - Switched "set" and "setMag" functions to modify calling object
-             members, and return void instead of a new AVector object.
 
 */
 /**************************************************************************/
@@ -42,49 +40,50 @@ int AVector::y(){
 }
 
 AVector AVector::add(int x, int y){
-  AVector rV(_x+x, _y+y);
+  AVector returnVector(_x+x, _y+y);
 
-  return rV;
+  return returnVector;
 }
 
 AVector AVector::add(AVector *v){
-  AVector rV(_x + v->x(), _y + v->y());
+  AVector returnVector(_x + v->x(), _y + v->y());
 
-  return rV;
+  return returnVector;
 }
 
 AVector AVector::sub(int x, int y){
-  AVector rV(_x - x, _y - y);
+  AVector returnVector(_x - x, _y - y);
 
-  return rV;
+  return returnVector;
 }
 
 AVector AVector::sub(AVector *v){
-  AVector rV(_x - v->x(), _y - v->y());
+  AVector returnVector(_x - v->x(), _y - v->y());
 
-  return rV;
+  return returnVector;
 }
 
-void AVector::set(int x, int y){
-  _x = x;
-  _y = y;
+AVector AVector::set(int x, int y){
+  AVector returnVector(x, y);
+  return returnVector;
 
 }
 
-void AVector::set(AVector *v){
-  set(v->x(), v->y());
+AVector AVector::set(AVector *v){
+  AVector returnVector(v->x(), v->y());
+  return returnVector;
 }
 
 AVector AVector::mult(int val){
-  AVector rV(_x * val, _y * val);
+  AVector returnVector(_x * val, _y * val);
 
-  return rV;
+  return returnVector;
 }
 
-AVector AVector::div(float val){
-  AVector rV(round(_x / val), round(_y / val));
+AVector AVector::div(int val){
+  AVector returnVector(round(_x / val), round(_y / val));
 
-  return rV;
+  return returnVector;
 }
 
 float AVector::distance(int x, int y){
@@ -120,15 +119,15 @@ float AVector::heading(){
   return -1*atan2(-1*_y, _x);
 }
 
-void AVector::setMag(float newMag){
-  AVector  rV = mult(newMag);
-  rV = rV.div(mag());
-  set(&rV);
+AVector AVector::setMag(float newMag){
+  float temp = mag();
+  AVector returnVector = mult(newMag);
+  return returnVector.div(temp);
 }
 
 AVector AVector::fromAngle(float theta){
-  AVector rV(round(cos(theta)*100), round(sin(theta)*100));
-  return rV;
+  AVector returnVector(round(cos(theta)*100), round(sin(theta)*100));
+  return returnVector;
 }
 
 float AVector::angleBetween(AVector *v){
@@ -160,13 +159,12 @@ float AVector::angleBetween(AVector *v){
 }
 
 float AVector::angleBetween(int x, int y){
-  AVector rV(x, y);
-  return angleBetween(&rV);
+  AVector returnVector(x, y);
+  return angleBetween(&returnVector);
 }
 
 AVector AVector::rotate(float theta){
   int temp = _x;
-  AVector rV(round(_x * cos(theta) - _y*sin(theta)), round(temp*sin(theta) + _y * cos(theta)));
-
-  return rV;
+  AVector returnVector(round(_x * cos(theta) - _y*sin(theta)), round(temp*sin(theta) + _y * cos(theta)));
+  return returnVector;
 }

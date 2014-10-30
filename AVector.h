@@ -14,8 +14,6 @@
 
     @section  HISTORY
     v1.0.0 - First release
-    v1.0.1 - Switched "set" and "setMag" functions to modify calling object
-             members, and return void instead of a new AVector object.
 */
 /**************************************************************************/
 
@@ -33,12 +31,15 @@ public:
   AVector(int x = 0, int y = 0);
 
   AVector
+    set(int x, int y),
+    set(AVector *),
     add(int x, int y),
     add(AVector *),
     sub(int x, int y),
     sub(AVector *),
     mult(int),
-    div(float),
+    div(int),
+    setMag(float),
     rotate(float theta),
     fromAngle(float theta);
 
@@ -59,10 +60,7 @@ public:
     unsigned long
       magSq();
 
-    void
-      setMag(float),
-      set(int x, int y),
-      set(AVector *);
+
 
 private:
   int
