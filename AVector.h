@@ -22,6 +22,9 @@
 
 #include "Arduino.h"
 #include <math.h>
+#include <avr/pgmspace.h>
+#include <avr/io.h>
+#include "fastTrig.h"
 
 
 class AVector {
@@ -31,8 +34,7 @@ public:
   AVector(int x = 0, int y = 0);
 
   AVector
-    set(int x, int y),
-    set(AVector *),
+
     add(int x, int y),
     add(AVector *),
     sub(int x, int y),
@@ -43,6 +45,7 @@ public:
     rotate(float theta),
     fromAngle(float theta);
 
+
   float
     distance(int x, int y),
     distance(AVector *),
@@ -50,12 +53,19 @@ public:
     heading(),
     angleBetween(AVector *),
     angleBetween(int x, int y),
+    angleBetweenFast(AVector *),
+    angleBetweenFast(int x, int y),
     dot(int x, int y),
     dot(AVector *);
 
+  void
+    set(int x, int y),
+    set(AVector *);
+
   int
     x(),
-    y();
+    y(),
+    lerp(AVector *, int);
 
     unsigned long
       magSq();
