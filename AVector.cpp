@@ -23,6 +23,7 @@
 
 #include "AVector.h"
 #include "fastTrig.h"
+#include <avr/pgmspace.h>
 
 AVector::AVector(int x, int y){
   _x = x;
@@ -166,7 +167,7 @@ float AVector::angleBetweenFast(AVector *v){
   if (_x == 0 && _y == 0) return 0;
   if (v->x() == 0 && v->y() == 0) return 0;
   // This should be a number between -1 and 1, since it's "normalized"
-  float amt = dot(v) * Q_rsqrt(magSq()) * Q_rsqrt(v->magSq());
+  float amt = dot(v) * Q_rsqrt(magSq() * v->magSq());
   /*
   Serial.println(dot(v));
   Serial.println(mag());

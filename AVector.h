@@ -22,6 +22,9 @@
 
 #include "Arduino.h"
 #include <math.h>
+#include <avr/pgmspace.h>
+#include <avr/io.h>
+#include "fastTrig.h"
 
 
 class AVector {
