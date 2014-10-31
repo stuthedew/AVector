@@ -19,7 +19,14 @@
 
 #include "Arduino.h"
 #include <avr/pgmspace.h>
-#include <avr/io.h>
+
+#define LOOKUP_SIZE 9
+
+
+const uint16_t acos_lookup[][2] PROGMEM = {{0, 90}, {35, 88}, {358, 69}, {720, 44}, {93, 23},
+                  {94, 20}, {97, 14}, {99,8}, {1000, 0}};
+
+
 
 typedef struct sPoint_t {
   const int
@@ -49,12 +56,8 @@ float Q_rsqrt( float number )
 	return y;
 }
 
-const uchar acos_lookup[][2] PROGMEM = {{0, 90}, {1, 89}, {72, 44}, {73, 43}, {93, 23},
-                  {94, 20}, {97, 14}, {99,8}, {100, 0}};
 
-
-
-int searchLookupTable(int target, prog_uchar (*lookUpTable)[2], int tableSize){
+int searchLookupTable(int target, const uint16_t (*lookUpTable)[2], int tableSize){
   int i;
   int bestIndex;
   for(i=0; i<tableSize; i++){/*
@@ -74,26 +77,51 @@ int searchLookupTable(int target, prog_uchar (*lookUpTable)[2], int tableSize){
 }
 
 
-uint8_t lerp(int index, uchar (*lookUpTable)[2], int x){
+inline uint16_t _bLkup(const uint16_t (*lTable)[2], uint8_t i1, uint8_t i2){
+  return pgm_read_byte(&(lTable[i1][i2]));
+}
+
+uint8_t lerp(int index, const uint16_t (*lTable)[2], int x){
   uint8_t y;
-  int16_t tmp;
-  tmp = (x - pgm_read_byte(&(lookUpTable[index][0])));
-  tmp *= (pgm_read_byte(&(lookUpTable[index][1])) - pgm_read_byte(&(lookUpTable[index + 1][1])));
-  tmp /= (pgm_read_byte(&(lookUpTable[index][0])) - pgm_read_byte(&(lookUpTable[index + 1][0])));
-  y = pgm_read_byte(&(lookUpTable[index][1]))+tmp;
+  float tmp;
+  /*
+  tmp = (x - pgm_read_byte(&(lTable[index][0])));
+  tmp *= (pgm_read_byte(&(lTable[index][1])) - pgm_read_byte(&(lTable[index + 1][1])));
+  tmp /= (pgm_read_byte(&(lTable[index][0])) - pgm_read_byte(&(lTable[index + 1][0])));
+  y = pgm_read_byte(&(lTable[index][1]))+round(tmp);
+  */
+  tmp = x - _bLkup(lTable, index, 0);
+  tmp *= _bLkup(lTable, index, 1) - _bLkup(lTable, index + 1, 1);
+  tmp /= (_bLkup(lTable, index, 0) - _bLkup(lTable, index + 1, 0));
+  y = _bLkup(lTable, index, 1);+round(tmp);
+
   //Serial.print(F("y: "));
   //Serial.println(y);
   return(y);
 }
 
 int fast_acos(float val){
-  int lVal = 100*val;
-  lVal -= 100;
+  int sign;
+  (val > 0) ? sign = 1 : sign = -1;
 
-  int index = searchLookupTable(lVal, acos_lookup, 9);
+  int lVal = sign*1000*val; // scale value to change to int
+  lVal -= 1000; //adjust correction value based on sign
+
+  int index = searchLookupTable(lVal, acos_lookup, LOOKUP_SIZE);
+
   //Serial.println(F("index"));
   //Serial.println(index);
-  return lerp(index, acos_lookup, lVal);
+
+  // adjust if val is outside the lookup table
+  (index + 1 >= LOOKUP_SIZE) ? index -= 1 : index;
+
+  if(sign > 0){
+    return lerp(index, acos_lookup, lVal);
+  }
+  else{
+  return 180 - lerp(index, acos_lookup, lVal);
+  }
+
 }
 
 #endif
