@@ -1,70 +1,164 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Avector by stuthedew</title>
+    <meta name="description" content="Avector : Vector class for Arduino based on Processing&#39;s PVector library.">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <title>Avector</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Avector</h1>
-        <p>Vector class for Arduino based on Processing&#39;s PVector library.</p>
-        <p class="view"><a href="https://github.com/stuthedew/AVector">View the Project on GitHub <small>stuthedew/AVector</small></a></p>
-        <ul>
-          <li><a href="https://github.com/stuthedew/AVector/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/stuthedew/AVector/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/stuthedew/AVector">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/stuthedew/AVector">View on GitHub</a>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+          <h1 id="project_title">Avector</h1>
+          <h2 id="project_tagline">Vector class for Arduino based on Processing&#39;s PVector library.</h2>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/stuthedew/AVector/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/stuthedew/AVector/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="avector" class="anchor" href="#avector"><span class="octicon octicon-link"></span></a>AVector</h1>
+
+<p>Vector class for <strong><code>Arduino</code></strong> based on <strong><code>Processing</code></strong>'s <a href="https://github.com/processing/processing/blob/44248a80d111b1710a4781739327afa18d3593fa/core/src/processing/core/PVector.java">PVector class</a> by Dan Shiffman, Ben Fry and Casey Reas.
+My inspiration for writing this is Dan Shiffman's awesome book <a href="http://natureofcode.com">The Nature of Code</a>, which he has graciously <a href="http://natureofcode.com/book/">posted on his website</a> in its entirety. It's definitely worth buying a <a href="http://www.amazon.com/gp/product/0985930802/ref=as_li_tf_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0985930802&amp;linkCode=as2&amp;tag=natureofcode-20">print edition</a> though. You wont regret it!</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<ol>
+<li>
+<a href="https://github.com/stuthedew/AVector/releases">Download</a> the latest release from gitHub.</li>
+<li>Unzip and modify the Folder name to "AVector" (Remove the '-version')</li>
+<li>Paste the modified folder on your Library folder (On your <code>Libraries</code> folder inside Sketchbooks or Arduino software).</li>
+</ol>
+
+<h2>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h2>
 
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="avector-class" class="anchor" href="#avector-class"><span class="octicon octicon-link"></span></a>
+<code>AVector</code> class</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>A class that describes a 2D vector. This can be used to describe a vector like velocity or acceleration, or used to describe a position. </p>
+
+<p>This class also includes common vector operations (addition/subtraction, rotation, dot product etc).</p>
+
+<h4>
+<a name="to-declare-an-avector-object" class="anchor" href="#to-declare-an-avector-object"><span class="octicon octicon-link"></span></a>To declare an AVector object:</h4>
+
+<div class="highlight highlight-c++"><pre><span class="c1">//Simple AVector instance</span>
+<span class="n">AVector</span> <span class="nf">myVector</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+
+<span class="c1">//This will declare an AVector with x = 0 and y = 0:</span>
+<span class="n">AVector</span> <span class="nf">myVector</span><span class="p">();</span> <span class="c1">// == AVector myVector(0, 0)</span>
+</pre></div>
+
+<h4>
+<a name="working-with-avector-components" class="anchor" href="#working-with-avector-components"><span class="octicon octicon-link"></span></a>Working with AVector components:</h4>
+
+<div class="highlight highlight-c++"><pre><span class="c1">//Simple AVector instance</span>
+<span class="n">AVector</span> <span class="nf">myVector</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+
+<span class="c1">//To access stored component values:</span>
+<span class="n">myVector</span><span class="p">.</span><span class="n">x</span><span class="p">();</span> <span class="c1">// returns 4</span>
+<span class="n">myVector</span><span class="p">.</span><span class="n">y</span><span class="p">();</span> <span class="c1">// returns 5</span>
+
+<span class="c1">//To change stored component values:</span>
+<span class="n">myVector</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">myVector</span><span class="p">.</span><span class="n">x</span><span class="p">();</span> <span class="c1">// returns 8</span>
+<span class="n">myVector</span><span class="p">.</span><span class="n">y</span><span class="p">();</span> <span class="c1">// returns 10</span>
+
+<span class="c1">// Also can be set from existing AVector object</span>
+<span class="n">AVector</span> <span class="nf">newVector</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
+
+<span class="n">myVector</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">newVector</span><span class="p">);</span>
+<span class="n">myVector</span><span class="p">.</span><span class="n">x</span><span class="p">();</span> <span class="c1">// returns 9</span>
+<span class="n">myVector</span><span class="p">.</span><span class="n">y</span><span class="p">();</span> <span class="c1">// returns 12</span>
+</pre></div>
+
+<hr>
+
+<h2>
+<a name="libary-reference" class="anchor" href="#libary-reference"><span class="octicon octicon-link"></span></a>Libary Reference</h2>
 
 <h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<a name="avector-class-1" class="anchor" href="#avector-class-1"><span class="octicon octicon-link"></span></a>
+<code>AVector</code> Class</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<h5>
+<a name="initialize" class="anchor" href="#initialize"><span class="octicon octicon-link"></span></a>Initialize:</h5>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<ul>
+<li>
+<code>AVector::AVector(int x = 0, int y = 0)</code> Initialize new AVector object</li>
+</ul>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h5>
+<a name="access-component-values" class="anchor" href="#access-component-values"><span class="octicon octicon-link"></span></a>Access Component Values:</h5>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<ul>
+<li>
+<code>int</code> <code>AVector::x()</code> - return x component</li>
+<li>
+<code>int</code> <code>AVector::y()</code> - return y component</li>
+</ul>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h5>
+<a name="set-component-values" class="anchor" href="#set-component-values"><span class="octicon octicon-link"></span></a>Set Component Values:</h5>
+
+<ul>
+<li>
+<code>AVector</code> <code>AVector::set(int x, int y)</code> - set x,y coordinates from integer values and return new AVector object</li>
+<li>
+<code>AVector</code> <code>AVector::set(AVector *otherVector)</code> - set x,y coordinates from AVector object and return new AVector object</li>
+</ul>
+
+<h5>
+<a name="vector-operations" class="anchor" href="#vector-operations"><span class="octicon octicon-link"></span></a>Vector Operations:</h5>
+
+<ul>
+<li>
+<code>AVector</code> <code>AVector::add(int x, int y)</code> - add integer components to AVector object and return new AVector object</li>
+<li>
+<code>AVector</code> <code>AVector::add(AVector *otherVector)</code> - add components of two AVector objects and return new AVector object</li>
+<li>
+<code>AVector</code> <code>AVector::sub(int x, int y)</code> - subtract integer components from AVector object and return new AVector object</li>
+<li>
+<code>AVector</code> <code>AVector::sub(AVector *otherVector)</code> - subtract components of two AVector objects and return new AVector object</li>
+<li>
+<code>AVector</code> <code>AVector::mult(int scaler)</code> - multiply (or scale) vector by arbitrary integer value and return new AVector object</li>
+<li>
+<code>AVector</code> <code>AVector::div(int scaler)</code> - divide (or scale) vector by arbitrary integer value and return new AVector object</li>
+<li>
+<code>AVector</code> <code>AVector::setMag(float newMagnitude)</code> - set component values from vector magnitude (hypotenuse) and return new AVector object</li>
+</ul>
       </section>
     </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/stuthedew">stuthedew</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Avector maintained by <a href="https://github.com/stuthedew">stuthedew</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
     
+
   </body>
 </html>
