@@ -20,15 +20,14 @@
 #include <avr/pgmspace.h>
 
 
-#define LOOKUP_SIZE 14
+#define LOOKUP_SIZE 16
 
 
 const uint16_t acos_lookup[][2] PROGMEM = {
-                    {0, 90}, {35, 88}, {208, 78}, 
-                    {358, 69}, {407, 66}, {530, 58}, 
-                    {720, 44}, {819, 35}, {883, 28},
-                    {920, 23}, {940, 20}, {970, 14}, 
-                    {990,8}, {1000, 0}};
+                    {0, 90}, {17, 89}, {35, 88}, {105, 84},
+                    {208, 78}, {358, 69}, {407, 66}, {530, 58},
+                    {720, 44}, {819, 35}, {883, 28}, {920, 23},
+                    {940, 20}, {970, 14}, {990,8}, {999, 0}};
 
 
 double Q_rsqrt( double number )
@@ -43,7 +42,7 @@ double Q_rsqrt( double number )
 	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
 	y  = * ( double * ) &i;
 	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
-//      y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+  //y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
 
 	return y;
 }
@@ -75,15 +74,15 @@ inline uint16_t _memRead(const uint16_t (*lTable)[2], uint8_t i1, uint8_t i2){
 }
 
 uint16_t lerp(int index, const uint16_t (*lTable)[2], uint16_t x){
-  uint16_t y;
+  int16_t y;
   int32_t tmp;
 
   tmp = x - _memRead(lTable, index, 0);
-  
+
   tmp *= (int)(_memRead(lTable, index + 1, 1) - _memRead(lTable, index, 1));
- 
+
   tmp /= (_memRead(lTable, index + 1, 0) - _memRead(lTable, index, 0));
-  
+
   y = _memRead(lTable, index, 1) + tmp;
 
 
@@ -103,10 +102,10 @@ int fast_acos(double val){
   Serial.println(index);
 */
   // adjust if val is outside the lookup table
-  (index + 1 >= LOOKUP_SIZE) ? index -= 1 : index;
+  (index + 1 > LOOKUP_SIZE) ? index -= 1 : index;
 
 //  Serial.println(F("Adjusted index"));
-//  Serial.println(index);
+  //Serial.println(index);
 
   if(sign > 0){
     return lerp(index, acos_lookup, lVal);
