@@ -185,7 +185,7 @@ float AVector::angleBetweenFast(AVector *v){
 
     return 0;
   }
-  return acos(amt);
+  return fast_acos(amt);
 }
 
 float AVector::angleBetween(int x, int y){
