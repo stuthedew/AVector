@@ -23,7 +23,7 @@
 #define LOOKUP_SIZE 16
 
 
-const uint16_t acos_lookup[][2] PROGMEM = {
+const int16_t acos_lookup[][2] PROGMEM = {
                     {0, 90}, {17, 89}, {35, 88}, {105, 84},
                     {208, 78}, {358, 69}, {407, 66}, {530, 58},
                     {720, 44}, {819, 35}, {883, 28}, {920, 23},
@@ -48,9 +48,9 @@ double Q_rsqrt( double number )
 }
 
 
-int searchLookupTable(int target, const uint16_t (*lookUpTable)[2], int tableSize){
+int searchLookupTable(int target, const int16_t (*lookUpTable)[2], int tableSize){
   int i;
-  int bestIndex;
+  int bestIndex = 0;
   for(i=0; i<tableSize; i++){
     /*
     Serial.print(pgm_read_word_near(&(lookUpTable[i][0])));
@@ -69,13 +69,13 @@ int searchLookupTable(int target, const uint16_t (*lookUpTable)[2], int tableSiz
 }
 
 
-inline uint16_t _memRead(const uint16_t (*lTable)[2], uint8_t i1, uint8_t i2){
+inline uint16_t _memRead(const int16_t (*lTable)[2], uint8_t i1, uint8_t i2){
   return pgm_read_word(&(lTable[i1][i2]));
 }
 
-uint16_t lerp(int index, const uint16_t (*lTable)[2], uint16_t x){
+uint16_t lerp(int index, const int16_t (*lTable)[2], int16_t x){
   int16_t y;
-  int32_t tmp;
+  int64_t tmp;
 
   tmp = x - _memRead(lTable, index, 0);
 
@@ -84,7 +84,15 @@ uint16_t lerp(int index, const uint16_t (*lTable)[2], uint16_t x){
   tmp /= (_memRead(lTable, index + 1, 0) - _memRead(lTable, index, 0));
 
   y = _memRead(lTable, index, 1) + tmp;
-
+  /*
+  Serial.print(tmp);
+  Serial.print(F(", "));
+  Serial.print(y);
+  Serial.print(F(", "));
+  Serial.print(index);
+  Serial.print(F(", "));
+  Serial.println(_memRead(lTable, index, 1));
+*/
 
   return(y);
 }
@@ -102,7 +110,7 @@ int fast_acos(double val){
   Serial.println(index);
 */
   // adjust if val is outside the lookup table
-  (index + 1 > LOOKUP_SIZE) ? index -= 1 : index;
+  (index + 1 < LOOKUP_SIZE) ? index -= 1 : index;
 
 //  Serial.println(F("Adjusted index"));
   //Serial.println(index);
