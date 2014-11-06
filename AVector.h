@@ -34,9 +34,9 @@ public:
             AVector         add( AVector * );
             AVector         sub( int x, int y );
             AVector         sub( AVector * );
-            AVector         mult( int multiplicand);
-            AVector         div( int divisor);
-            AVector         setMag( float magnitude);
+            AVector         mult( int multiplicand );
+            AVector         div( int divisor );
+            AVector         setMag( float magnitude );
             AVector         rotate( float theta );
             AVector         fromAngle( float theta );
 
@@ -44,7 +44,7 @@ public:
             float           distance( AVector * ) const;
             float           mag( void ) const;
             float           heading( void ) const;
-            float           angleBetween( AVector *) const;
+            float           angleBetween( AVector * ) const;
             float           angleBetween( int x, int y ) const;
             float           angleBetweenFast( AVector * ) const;
             float           angleBetweenFast( int x, int y ) const;
@@ -53,7 +53,7 @@ public:
 
             int             x( void ) const;
             int             y( void ) const;
-            int             lerp( AVector *, int x) const;
+            int             lerp( AVector *, int x ) const;
 
             void            set( int x, int y );
             void            set( AVector * );
