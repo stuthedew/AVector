@@ -30,12 +30,12 @@ AVector::AVector(int x, int y){
   _y = y;
 }
 
-int AVector::x(){
+int AVector::x() const{
 
   return _x;
 }
 
-int AVector::y(){
+int AVector::y() const{
 
   return _y;
 }
@@ -88,34 +88,34 @@ AVector AVector::div(int val){
   return returnVector;
 }
 
-float AVector::distance(int x, int y){
+float AVector::distance(int x, int y) const{
 
   return sqrt(pow((x - _x), 2) + pow((y - _y),2));
 }
 
-float AVector::distance(AVector *v){
+float AVector::distance(AVector *v) const{
 
   return distance(v->x(), v->y());
 }
 
-float AVector::mag(){
+float AVector::mag() const{
 
   return sqrt(magSq());
 }
 
-unsigned long AVector::magSq(){
+unsigned long AVector::magSq() const{
   return (_x*_x + _y*_y);
 }
 
-float AVector::dot(int x, int y){
+float AVector::dot(int x, int y) const{
   return (_x*x + _y*y);
 }
 
-float AVector::dot(AVector *v){
+float AVector::dot(AVector *v) const{
   return dot(v->x(), v->y());
 }
 
-float AVector::heading(){
+float AVector::heading() const{
   return -1*atan2(-1*_y, _x);
 }
 
@@ -130,7 +130,7 @@ AVector AVector::fromAngle(float theta){
   return returnVector;
 }
 
-float AVector::angleBetween(AVector *v){
+float AVector::angleBetween(AVector *v) const{
   // We get NaN if we pass in a zero vector which can cause problems
   // Zero seems like a reasonable angle between a (0,0) vector and something else
   if (_x == 0 && _y == 0) return 0;
@@ -161,7 +161,7 @@ float AVector::angleBetween(AVector *v){
 
 }
 
-float AVector::angleBetweenFast(AVector *v){
+float AVector::angleBetweenFast(AVector *v) const{
   // We get NaN if we pass in a zero vector which can cause problems
   // Zero seems like a reasonable angle between a (0,0) vector and something else
   if (_x == 0 && _y == 0) return 0;
@@ -188,12 +188,12 @@ float AVector::angleBetweenFast(AVector *v){
   return fast_acos(amt);
 }
 
-float AVector::angleBetween(int x, int y){
+float AVector::angleBetween(int x, int y) const{
   AVector returnVector(x, y);
   return angleBetween(&returnVector);
 }
 
-float AVector::angleBetweenFast(int x, int y){
+float AVector::angleBetweenFast(int x, int y) const{
   AVector returnVector(x, y);
   return angleBetweenFast(&returnVector);
 }
@@ -204,7 +204,7 @@ AVector AVector::rotate(float theta){
   return returnVector;
 }
 
-int AVector::lerp(AVector *v, int tX){
+int AVector::lerp(AVector *v, int tX) const{
   return fast_acos(1.42);
   int16_t tY;
   int32_t tmp;
