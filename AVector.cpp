@@ -25,112 +25,112 @@
 #include "fastTrig.h"
 #include <avr/pgmspace.h>
 
-AVector::AVector(int x, int y){
+AVector::AVector( int x, int y ){
   _x = x;
   _y = y;
 }
 
-int AVector::x() const{
+int AVector::x( void ) const{
 
   return _x;
 }
 
-int AVector::y() const{
+int AVector::y( void ) const{
 
   return _y;
 }
 
-AVector AVector::add(int x, int y){
+AVector AVector::add( int x, int y ){
   AVector returnVector(_x+x, _y+y);
 
   return returnVector;
 }
 
-AVector AVector::add(AVector *v){
+AVector AVector::add( AVector *v ){
   AVector returnVector(_x + v->x(), _y + v->y());
 
   return returnVector;
 }
 
-AVector AVector::sub(int x, int y){
+AVector AVector::sub( int x, int y ){
   AVector returnVector(_x - x, _y - y);
 
   return returnVector;
 }
 
-AVector AVector::sub(AVector *v){
+AVector AVector::sub( AVector *v ){
   AVector returnVector(_x - v->x(), _y - v->y());
 
   return returnVector;
 }
 
-void AVector::set(int x, int y){
+void AVector::set( int x, int y ){
   _x = x;
   _y = y;
 
 
 }
 
-void AVector::set(AVector *v){
+void AVector::set( AVector *v ){
   _x = v->x();
   _y = v->y();
 }
 
-AVector AVector::mult(int val){
+AVector AVector::mult( int val ){
   AVector returnVector(_x * val, _y * val);
 
   return returnVector;
 }
 
-AVector AVector::div(int val){
+AVector AVector::div( int val ){
   AVector returnVector(round(_x / val), round(_y / val));
 
   return returnVector;
 }
 
-float AVector::distance(int x, int y) const{
+float AVector::distance( int x, int y ) const{
 
   return sqrt(pow((x - _x), 2) + pow((y - _y),2));
 }
 
-float AVector::distance(AVector *v) const{
+float AVector::distance( AVector *v ) const{
 
   return distance(v->x(), v->y());
 }
 
-float AVector::mag() const{
+float AVector::mag( void ) const{
 
   return sqrt(magSq());
 }
 
-unsigned long AVector::magSq() const{
+unsigned long AVector::magSq( void ) const{
   return (_x*_x + _y*_y);
 }
 
-float AVector::dot(int x, int y) const{
+float AVector::dot( int x, int y ) const{
   return (_x*x + _y*y);
 }
 
-float AVector::dot(AVector *v) const{
+float AVector::dot( AVector *v ) const{
   return dot(v->x(), v->y());
 }
 
-float AVector::heading() const{
+float AVector::heading( void ) const{
   return -1*atan2(-1*_y, _x);
 }
 
-AVector AVector::setMag(float newMag){
+AVector AVector::setMag( float newMag ){
   float temp = mag();
   AVector returnVector = mult(newMag);
   return returnVector.div(temp);
 }
 
-AVector AVector::fromAngle(float theta){
+AVector AVector::fromAngle( float theta ){
   AVector returnVector(round(cos(theta)*100), round(sin(theta)*100));
   return returnVector;
 }
 
-float AVector::angleBetween(AVector *v) const{
+float AVector::angleBetween( AVector *v ) const{
   // We get NaN if we pass in a zero vector which can cause problems
   // Zero seems like a reasonable angle between a (0,0) vector and something else
   if (_x == 0 && _y == 0) return 0;
@@ -161,7 +161,7 @@ float AVector::angleBetween(AVector *v) const{
 
 }
 
-float AVector::angleBetweenFast(AVector *v) const{
+float AVector::angleBetweenFast( AVector *v ) const{
   // We get NaN if we pass in a zero vector which can cause problems
   // Zero seems like a reasonable angle between a (0,0) vector and something else
   if (_x == 0 && _y == 0) return 0;
@@ -188,23 +188,23 @@ float AVector::angleBetweenFast(AVector *v) const{
   return fast_acos(amt);
 }
 
-float AVector::angleBetween(int x, int y) const{
+float AVector::angleBetween( int x, int y ) const{
   AVector returnVector(x, y);
   return angleBetween(&returnVector);
 }
 
-float AVector::angleBetweenFast(int x, int y) const{
+float AVector::angleBetweenFast( int x, int y ) const{
   AVector returnVector(x, y);
   return angleBetweenFast(&returnVector);
 }
 
-AVector AVector::rotate(float theta){
+AVector AVector::rotate( float theta ){
   int temp = _x;
   AVector returnVector(round(_x * cos(theta) - _y*sin(theta)), round(temp*sin(theta) + _y * cos(theta)));
   return returnVector;
 }
 
-int AVector::lerp(AVector *v, int tX) const{
+int AVector::lerp( AVector *v, int tX ) const{
   return fast_acos(1.42);
   int16_t tY;
   int32_t tmp;
