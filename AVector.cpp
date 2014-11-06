@@ -116,7 +116,7 @@ float AVector::dot( AVector *v ) const{
 }
 
 float AVector::heading( void ) const{
-  return -1*atan2(-1*_y, _x);
+  return -1 * atan2(-1*_y, _x);
 }
 
 AVector AVector::setMag( float newMag ){
