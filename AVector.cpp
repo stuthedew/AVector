@@ -182,7 +182,6 @@ float AVector::angleBetweenFast( AVector *v ) const{
   if (amt <= -1) {
     return M_PI;
   } else if (amt >= 1) {
-
     return 0;
   }
   return fast_acos(amt);
@@ -211,7 +210,7 @@ int AVector::lerp( AVector *v, int tX ) const{
   tmp = (tX - x());
   tmp *= (v->y() - y());
   tmp /= (v->x() - x());
-  tY = y()+tmp;
+  tY = y() + tmp;
   return(tY);
 
 }
