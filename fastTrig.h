@@ -23,6 +23,16 @@
 #define LOOKUP_SIZE 16
 
 
+typedef struct divisor_t {
+  const int16_t *multiplicand;
+  const uint8_t *shift;
+
+  divisor_t( const int16_t m, const uint8_t s ):multiplicand( m ),shift( s ){}
+
+} divisor_t;
+
+
+
 const int16_t acos_lookup[][2] PROGMEM = {
                     {0, 90}, {17, 89}, {35, 88}, {105, 84},
                     {208, 78}, {358, 69}, {407, 66}, {530, 58},
