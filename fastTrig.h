@@ -41,9 +41,9 @@ const int16_t acos_lookup[][2] PROGMEM = {
 ///   pi ~= 3.14 ~= 22/7
 ///   Find a power of 2 that is close to a multiple of 7 (bit shifts are cheap)
 ///   7*73 = 511 ~= 512 = 2^9
-///   Float Value   Calculated    Difference from pi(%)
+///   Float Value   Calculated    Difference from pi
 ///   -----------   ----------    ---------------------
-///        pi        3.1416           0
+///        pi        3.1416           0%
 ///      22 / 7      3.1429          0.04%
 ///   (22*73) >> 9   3.1367          0.16%
 
