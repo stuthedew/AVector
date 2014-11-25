@@ -11,6 +11,7 @@
 
     @section  HISTORY
     v0.0.1 - First release
+    
 */
 /**************************************************************************/
 
@@ -55,7 +56,7 @@ int searchLookupTable( int target, const int16_t ( *lookUpTable )[2], int tableS
 }
 
 
-uint16_t lerp( int index, const int16_t ( *lTable )[2], int16_t x ){
+uint16_t lerp( int16_t x, int index, const int16_t ( *lTable )[2] ){
   int16_t y ;
   int64_t tmp ;
 
@@ -101,10 +102,10 @@ int fast_acos( double val ){
   //Serial.println(index);
 
   if( sign > 0 ){
-    return lerp( index, acos_lookup, lVal );
+    return lerp( lVal, index, acos_lookup );
   }
   else{
-  return 180 - lerp( index, acos_lookup, lVal );
+  return 180 - lerp( lVal, index, acos_lookup );
   }
 
 }

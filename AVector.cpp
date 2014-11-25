@@ -24,9 +24,6 @@
 #include "AVector.h"
 #include "fastTrig.h"
 
-#ifdef ARDUINO
-#include <avr/pgmspace.h>
-#endif
 
 AVector::AVector( int x, int y ) {
   _x = x;
