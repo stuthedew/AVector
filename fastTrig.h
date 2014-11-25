@@ -62,7 +62,7 @@ typedef struct divisor_t {
 /// @param number Number from which to calculate the inverse square root.
 /// @return The inverse square root of input number.
 
-float Q_rsqrt( float number ) ;
+float invSqrt( float number ) ;
 
 
 /// Get lookup table index for known x values above and below target x value for

@@ -11,7 +11,7 @@
 
     @section  HISTORY
     v0.0.1 - First release
-    
+
 */
 /**************************************************************************/
 
@@ -20,7 +20,7 @@
 
 //Adapted from "FAST INVERSE SQUARE ROOT" paper by Chris Lomont
 //<http://www.lomont.org/Math/Papers/2003/InvSqrt.pdf>
-float Q_rsqrt( float number ){
+float invSqrt( float number ){
 
   float xhalf = 0.5f * number ;
   float y = number ;
