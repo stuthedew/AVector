@@ -2,20 +2,19 @@
 
 /**************************************************************************/
 /*!
-    @file     fastTrig.h
-    @author   Stuart Feichtinger
-    @license  MIT (see license.txt)
+@file     fastTrig.h
+@author   Stuart Feichtinger
+@license  MIT (see license.txt)
 
-    My attempts to speed up the trig functions I need.
+My attempts to speed up the trig functions I need.
 
 
-    @section  HISTORY
-    v0.0.1 - First release
+@section  HISTORY
+v0.0.1 - First release
 */
 /**************************************************************************/
 
-#ifndef _FASTTRIG_H_
-#define _FASTTRIG_H_
+#pragma once
 
 #include <avr/pgmspace.h>
 
@@ -24,114 +23,53 @@
 
 
 typedef struct divisor_t {
-  const int16_t *multiplicand;
-  const uint8_t *shift;
+  const int16_t *multiplicand ;
+  const uint8_t *shift ;
 
-  divisor_t( const int16_t m, const uint8_t s ):multiplicand( m ),shift( s ){}
+  divisor_t( int16_t* const m, uint8_t* const s ):multiplicand( m ),shift( s ){}
 
 } divisor_t;
 
 
-
 const int16_t acos_lookup[][2] PROGMEM = {
-                    {0, 90}, {17, 89}, {35, 88}, {105, 84},
-                    {208, 78}, {358, 69}, {407, 66}, {530, 58},
-                    {720, 44}, {819, 35}, {883, 28}, {920, 23},
-                    {940, 20}, {970, 14}, {990,8}, {999, 0}};
+  { 0  , 90 },  { 17, 89  },  { 35 , 88 },  { 105, 84 },
+  { 208, 78 },  { 358, 69 },  { 407, 66 },  { 530, 58 },
+  { 720, 44 },  { 819, 35 },  { 883, 28 },  { 920, 23 },
+  { 940, 20 },  { 970, 14 },  { 990, 8  },  { 999, 0  }
+} ;
 
 
-double Q_rsqrt( double number )
-{
-	long i;
-	double x2, y;
-	const double threehalfs = 1.5F;
+/// Get inverse square root of number using fast inverse square root algorithm
+/// made popular by Quake 3.
+///
+///@param number Number from which to calculate the inverse square root.
+///@return The inverse square root of input number.
 
-	x2 = number * 0.5F;
-	y  = number;
-	i  = * ( long * ) &y;                       // evil doubleing point bit level hacking
-	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
-	y  = * ( double * ) &i;
-	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
-  //y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
-
-	return y;
-}
+float Q_rsqrt( float number ) ;
 
 
-int searchLookupTable(int target, const int16_t (*lookUpTable)[2], int tableSize){
-  int i;
-  int bestIndex = 0;
-  for(i=0; i<tableSize; i++){
-    /*
-    Serial.print(pgm_read_word_near(&(lookUpTable[i][0])));
-    Serial.print(F(", "));
-    Serial.println(pgm_read_word(&(lookUpTable[i][1])));
-    */
-    if(target > pgm_read_word_near(&(lookUpTable[i][0]))){
-      //Serial.println(pgm_read_word_near(lookUpTable + i*2 + 1));
-      bestIndex = i;
-    }
-    else{
-      return bestIndex;
-    }
-  }
-  return bestIndex;
-}
+/// Get lookup table index for known x values above and below target x value for
+/// subsiquent interpolation.
+///
+///@param target The x value to bracket
+///@param lookUpTable The lookup table to search
+///@param tableSize The number of known reference values in lookup table.
+///@return The index of the reference x value below target. (Higher = index + 1)
+
+int searchLookupTable( int target, const int16_t ( *lookUpTable )[2], int tableSize ) ;
 
 
-inline uint16_t _memRead(const int16_t (*lTable)[2], uint8_t i1, uint8_t i2){
-  return pgm_read_word(&(lTable[i1][i2]));
-}
+        uint16_t  lerp( int index, const int16_t ( *lTable )[2], int16_t x ) ;
+        int       fast_acos( double val ) ;
+        int       fast_acos( double val ) ;
 
-uint16_t lerp(int index, const int16_t (*lTable)[2], int16_t x){
-  int16_t y;
-  int64_t tmp;
+/// Read from acos lookup table stored in flash memory (PROGMEM).
+/// Helper function not meant to be called by user. Use "searchLookupTable"
+/// instead.
+///
+///@param lTable The table to read from.
+///@param set set to read from
+///@param var variable to read (x or y)
+///@return The desired value from table.
 
-  tmp = x - _memRead(lTable, index, 0);
-
-  tmp *= (int)(_memRead(lTable, index + 1, 1) - _memRead(lTable, index, 1));
-
-  tmp /= (_memRead(lTable, index + 1, 0) - _memRead(lTable, index, 0));
-
-  y = _memRead(lTable, index, 1) + tmp;
-  /*
-  Serial.print(tmp);
-  Serial.print(F(", "));
-  Serial.print(y);
-  Serial.print(F(", "));
-  Serial.print(index);
-  Serial.print(F(", "));
-  Serial.println(_memRead(lTable, index, 1));
-*/
-
-  return(y);
-}
-
-int fast_acos(double val){
-  int sign;
-  (val > 0) ? sign = 1 : sign = -1;
-
-  int lVal = sign*1000*val; // scale value to change to int
-  //Serial.println(lVal);
-
-  int index = searchLookupTable(lVal, acos_lookup, LOOKUP_SIZE);
-/*
-  Serial.println(F("index"));
-  Serial.println(index);
-*/
-  // adjust if val is outside the lookup table
-  (index + 1 < LOOKUP_SIZE) ? index -= 1 : index;
-
-//  Serial.println(F("Adjusted index"));
-  //Serial.println(index);
-
-  if(sign > 0){
-    return lerp(index, acos_lookup, lVal);
-  }
-  else{
-  return 180 - lerp(index, acos_lookup, lVal);
-  }
-
-};
-
-#endif
+inline  uint16_t  _memRead( const int16_t ( *lTable )[2], uint8_t set, uint8_t var ){ return pgm_read_word( &( lTable[set][var] ) ); }
