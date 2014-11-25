@@ -13,12 +13,11 @@
 
 
     @section  HISTORY
-    v1.0.0 - First release
+    v0.0.1 - First release
 */
 /**************************************************************************/
 
-#ifndef _AVECTOR_H_
-#define _AVECTOR_H_
+#pragma once
 
 #include "Arduino.h"
 #include <math.h>
@@ -28,47 +27,42 @@ class AVector {
 
 public:
 
-  AVector(int x = 0, int y = 0);
+            AVector( int x = 0, int y = 0 ) ;
 
-  AVector
-    set(int x, int y),
-    set(AVector *),
-    add(int x, int y),
-    add(AVector *),
-    sub(int x, int y),
-    sub(AVector *),
-    mult(int),
-    div(int),
-    setMag(float),
-    rotate(float theta),
-    fromAngle(float theta);
+            AVector         add( int x, int y ) ;
+            AVector         add( AVector * ) ;
+            AVector         sub( int x, int y ) ;
+            AVector         sub( AVector * ) ;
+            AVector         mult( int multiplicand ) ;
+            AVector         div( int divisor ) ;
+            AVector         setMag( float magnitude ) ;
+            AVector         rotate( float theta ) ;
+            AVector         fromAngle( float theta ) ;
 
-  float
-    distance(int x, int y),
-    distance(AVector *),
-    mag(),
-    heading(),
-    angleBetween(AVector *),
-    angleBetween(int x, int y),
-    dot(int x, int y),
-    dot(AVector *);
+            float           distance( int x, int y ) const ;
+            float           distance( AVector * ) const ;
+            float           mag( void ) const ;
+            float           heading( void ) const ;
+            float           angleBetween( AVector * ) const ;
+            float           angleBetween( int x, int y ) const ;
+            float           angleBetweenFast( AVector * ) const ;
+            float           angleBetweenFast( int x, int y ) const ;
+            float           dot( int x, int y ) const ;
+            float           dot( AVector * ) const ;
 
-  int
-    x(),
-    y();
+            int             x( void ) const ;
+            int             y( void ) const ;
+            int             lerp( AVector *, int x ) const ;
 
-    unsigned long
-      magSq();
+            void            set( int x, int y ) ;
+            void            set( AVector * ) ;
+
+  unsigned  long            magSq( void ) const ;
 
 
 
 private:
-  int
-    _x,
-    _y;
+            int            _x ;
+            int            _y ;
 
 };
-
-
-
-#endif

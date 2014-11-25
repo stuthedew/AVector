@@ -14,7 +14,7 @@
 
 
     @section  HISTORY
-    v1.0.0 - First release
+    v0.0.1 - First release
 
 */
 /**************************************************************************/
@@ -22,129 +22,130 @@
 
 
 #include "AVector.h"
+#include "fastTrig.h"
 
 
-AVector::AVector(int x, int y){
+AVector::AVector( int x, int y ) {
   _x = x;
   _y = y;
 }
 
-int AVector::x(){
+int AVector::x( void ) const {
 
   return _x;
 }
 
-int AVector::y(){
+int AVector::y( void ) const {
 
   return _y;
 }
 
-AVector AVector::add(int x, int y){
-  AVector returnVector(_x+x, _y+y);
+AVector AVector::add( int x, int y ) {
+  AVector returnVector(_x+x, _y+y) ;
 
   return returnVector;
 }
 
-AVector AVector::add(AVector *v){
-  AVector returnVector(_x + v->x(), _y + v->y());
+AVector AVector::add( AVector *v ) {
+  AVector returnVector(_x + v->x(), _y + v->y()) ;
 
   return returnVector;
 }
 
-AVector AVector::sub(int x, int y){
-  AVector returnVector(_x - x, _y - y);
+AVector AVector::sub( int x, int y ) {
+  AVector returnVector(_x - x, _y - y) ;
 
   return returnVector;
 }
 
-AVector AVector::sub(AVector *v){
-  AVector returnVector(_x - v->x(), _y - v->y());
+AVector AVector::sub( AVector *v ) {
+  AVector returnVector(_x - v->x(), _y - v->y()) ;
 
   return returnVector;
 }
 
-AVector AVector::set(int x, int y){
-  AVector returnVector(x, y);
-  return returnVector;
+void AVector::set( int x, int y ) {
+  _x = x;
+  _y = y;
+
 
 }
 
-AVector AVector::set(AVector *v){
-  AVector returnVector(v->x(), v->y());
-  return returnVector;
+void AVector::set( AVector *v ) {
+  _x = v->x() ;
+  _y = v->y() ;
 }
 
-AVector AVector::mult(int val){
-  AVector returnVector(_x * val, _y * val);
-
-  return returnVector;
-}
-
-AVector AVector::div(int val){
-  AVector returnVector(round(_x / val), round(_y / val));
+AVector AVector::mult( int val ) {
+  AVector returnVector(_x * val, _y * val) ;
 
   return returnVector;
 }
 
-float AVector::distance(int x, int y){
+AVector AVector::div( int val ) {
+  AVector returnVector(round(_x / val), round(_y / val)) ;
 
-  return sqrt(pow((x - _x), 2) + pow((y - _y),2));
+  return returnVector ;
 }
 
-float AVector::distance(AVector *v){
+float AVector::distance( int x, int y ) const {
 
-  return distance(v->x(), v->y());
+  return sqrt( pow( ( x - _x ), 2 ) + pow( ( y - _y ), 2) ) ;
 }
 
-float AVector::mag(){
+float AVector::distance( AVector *v ) const {
 
-  return sqrt(magSq());
+  return distance(v->x(), v->y()) ;
 }
 
-unsigned long AVector::magSq(){
-  unsigned long x = _x;
-  unsigned long y = _y;
-  return (x*x + y*y);
+float AVector::mag( void ) const {
+
+  return sqrt(magSq()) ;
 }
 
-float AVector::dot(int x, int y){
-  return (_x*x + _y*y);
+unsigned long AVector::magSq( void ) const {
+  return (_x*_x + _y*_y) ;
 }
 
-float AVector::dot(AVector *v){
-  return dot(v->x(), v->y());
+float AVector::dot( int x, int y ) const {
+  return ( _x*x + _y*y ) ;
 }
 
-float AVector::heading(){
-  return -1*atan2(-1*_y, _x);
+float AVector::dot( AVector *v ) const {
+  return dot( v->x(), v->y() ) ;
 }
 
-AVector AVector::setMag(float newMag){
-  float temp = mag();
-  AVector returnVector = mult(newMag);
-  return returnVector.div(temp);
+float AVector::heading( void ) const {
+  return -1 * atan2( -1*_y, _x ) ;
 }
 
-AVector AVector::fromAngle(float theta){
-  AVector returnVector(round(cos(theta)*100), round(sin(theta)*100));
-  return returnVector;
+AVector AVector::setMag( float newMag ) {
+  float temp = mag() ;
+  AVector returnVector = mult( newMag ) ;
+  return returnVector.div( temp ) ;
 }
 
-float AVector::angleBetween(AVector *v){
+AVector AVector::fromAngle( float theta ) {
+  AVector returnVector( round( cos( theta )*100 ), round( sin( theta )*100 ) ) ;
+  return returnVector ;
+}
+
+float AVector::angleBetween( AVector *v ) const {
   // We get NaN if we pass in a zero vector which can cause problems
   // Zero seems like a reasonable angle between a (0,0) vector and something else
-  if (_x == 0 && _y == 0) return 0;
-  if (v->x() == 0 && v->y() == 0) return 0;
+  if (_x == 0 && _y == 0) return 0 ;
+  if (v->x() == 0 && v->y() == 0) return 0 ;
 
   // This should be a number between -1 and 1, since it's "normalized"
-  float amt = dot(v) / (mag() * v->mag());
-  /*
-  Serial.println(dot(v));
-  Serial.println(mag());
-  Serial.println(v->mag());
-  Serial.println(amt);
-  Serial.println(acos(amt)*180 / M_PI);
-  */
+  float amt = dot(v) / (mag() * v->mag()) ;
+
+  #ifdef SLOW_DEBUG
+  Serial.println(dot(v)) ;
+  Serial.println(mag()) ;
+  Serial.println(v->mag()) ;
+  Serial.println(amt) ;
+  Serial.println(acos(amt)*180 / M_PI) ;
+  #endif
   // But if it's not, due to rounding error, then we need to fix it
   // http://code.google.com/p/processing/issues/detail?id=340
   // Otherwise if outside the range, acos() will return NaN
@@ -155,16 +156,62 @@ float AVector::angleBetween(AVector *v){
 
     return 0;
   }
-  return acos(amt);
+
+  return acos(amt) ;
+
 }
 
-float AVector::angleBetween(int x, int y){
-  AVector returnVector(x, y);
-  return angleBetween(&returnVector);
+float AVector::angleBetweenFast( AVector *v ) const {
+  // We get NaN if we pass in a zero vector which can cause problems
+  // Zero seems like a reasonable angle between a (0,0) vector and something else
+  if (_x == 0 && _y == 0) return 0;
+  if (v->x() == 0 && v->y() == 0) return 0;
+  // This should be a number between -1 and 1, since it's "normalized"
+  float amt = dot( v ) * invSqrt( magSq() * v->magSq() ) ;
+
+  #ifdef FAST_DEBUG
+  Serial.println(dot(v)) ;
+  Serial.println(mag()) ;
+  Serial.println(v->mag()) ;
+  Serial.println(amt) ;
+  Serial.println(acos(amt)*180 / M_PI) ;
+  #endif
+  // But if it's not, due to rounding error, then we need to fix it
+  // http://code.google.com/p/processing/issues/detail?id=340
+  // Otherwise if outside the range, acos() will return NaN
+  // http://www.cppreference.com/wiki/c/math/acos
+  if (amt <= -1) {
+    return M_PI;
+  } else if (amt >= 1) {
+    return 0;
+  }
+  return fast_acos( amt ) ;
 }
 
-AVector AVector::rotate(float theta){
+float AVector::angleBetween( int x, int y ) const {
+  AVector returnVector( x, y ) ;
+  return angleBetween( &returnVector ) ;
+}
+
+float AVector::angleBetweenFast( int x, int y ) const {
+  AVector returnVector( x, y ) ;
+  return angleBetweenFast( &returnVector ) ;
+}
+
+AVector AVector::rotate( float theta ) {
   int temp = _x;
-  AVector returnVector(round(_x * cos(theta) - _y*sin(theta)), round(temp*sin(theta) + _y * cos(theta)));
-  return returnVector;
+  AVector returnVector(round(_x * cos(theta) - _y*sin(theta)), round(temp*sin(theta) + _y * cos(theta))) ;
+  return returnVector ;
+}
+
+int AVector::lerp( AVector *v, int tX ) const {
+  return fast_acos( 1.42 ) ;
+  int16_t tY ;
+  int32_t tmp ;
+  tmp = ( tX - x() ) ;
+  tmp *= ( v->y() - y() ) ;
+  tmp /= ( v->x() - x() ) ;
+  tY = y() + tmp;
+  return( tY ) ;
+
 }
