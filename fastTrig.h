@@ -24,14 +24,41 @@ v0.0.3 - Added documentation.
 
 
 /// Lookup table for acos calculation.
-/// x = angle in degrees between 0 and 90 multiplied by 1000
-/// y = acos value.
+/// [][0] = angle in degrees between 0 and 90 multiplied by 1000
+/// [][1] = acos value.
 
 const int16_t acos_lookup[][2] PROGMEM = {
+  {   0, 90 },  {  17, 89 },  {  35, 88 },  { 105, 84 },
+  { 208, 78 },  { 358, 69 },  { 407, 66 },  { 530, 58 },
+  { 720, 44 },  { 819, 35 },  { 883, 28 },  { 920, 23 },
+  { 940, 20 },  { 970, 14 },  { 990,  8 },  { 999,  0 }
+} ;
+
+/// Lookup table for linear interpolation divisor between points on acos
+/// lookup table using multiplication and shift. =~ 1/(x2 - x1)
+/// [][0] = Multiplicand.
+/// [][1] = Shift value.
+///
+/// e.g.
+///   slope = (y2 - y1) / (x2 - x1)<< evil repeating division
+///   (x1, y1) = acos_lookup[0] = (0, 90)
+///   (x2, y2) = acos_lookup[1] = (17, 89)
+///
+///   {Multiplicand} *Shift value*
+///   17 * {15} = 255 ~= 256 = 2^*9*
+///   (89 - 90)/(17 - 0) ~= ((val * {15}) >> *9*)
+///
+///       val         val /    Difference acutal
+///   -----------   ----------    ---------------------
+///        2        3.1416           0%
+///        8      3.1429          0.04%
+///       12    3.1367            0.16%
+
+const int16_t lerp_divisor_lookup[][2] PROGMEM = {
   { 0  , 90 },  { 17, 89  },  { 35 , 88 },  { 105, 84 },
   { 208, 78 },  { 358, 69 },  { 407, 66 },  { 530, 58 },
   { 720, 44 },  { 819, 35 },  { 883, 28 },  { 920, 23 },
-  { 940, 20 },  { 970, 14 },  { 990, 8  },  { 999, 0  }
+  { 940, 20 },  { 970, 14 },  { 990,  8 },  { 999,  0 }
 } ;
 
 
@@ -41,11 +68,7 @@ const int16_t acos_lookup[][2] PROGMEM = {
 ///   pi ~= 3.14 ~= 22/7
 ///   Find a power of 2 that is close to a multiple of 7 (bit shifts are cheap)
 ///   7*73 = 511 ~= 512 = 2^9
-///   Float Value   Calculated    Difference from pi
-///   -----------   ----------    ---------------------
-///        pi        3.1416           0%
-///      22 / 7      3.1429          0.04%
-///   (22*73) >> 9   3.1367          0.16%
+
 
 typedef struct divisor_t {
   const int16_t *multiplicand ;
