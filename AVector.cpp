@@ -103,8 +103,17 @@ float AVector::mag( void ) const {
   return sqrt(magSq()) ;
 }
 
+float AVector::mag( int x, int y ) const {
+
+  return sqrt(magSq(x, y)) ;
+}
+
 unsigned long AVector::magSq( void ) const {
   return (_x*_x + _y*_y) ;
+}
+
+unsigned long AVector::magSq( int x, int y ) const {
+  return ( x*x + y*y ) ;
 }
 
 float AVector::dot( int x, int y ) const {
@@ -130,19 +139,19 @@ AVector AVector::fromAngle( float theta ) {
   return returnVector ;
 }
 
-float AVector::angleBetween( AVector *v ) const {
+float AVector::angleBetween( int x, int y ) const {
   // We get NaN if we pass in a zero vector which can cause problems
   // Zero seems like a reasonable angle between a (0,0) vector and something else
   if (_x == 0 && _y == 0) return 0 ;
-  if (v->x() == 0 && v->y() == 0) return 0 ;
+  if ( x == 0 && y == 0) return 0 ;
 
   // This should be a number between -1 and 1, since it's "normalized"
-  float amt = dot(v) / (mag() * v->mag()) ;
+  float amt = dot( x, y ) / (mag() * mag( x, y )) ;
 
   #ifdef SLOW_DEBUG
-  Serial.println(dot(v)) ;
+  Serial.println(dot(x, y)) ;
   Serial.println(mag()) ;
-  Serial.println(v->mag()) ;
+  Serial.println(mag(x, y)) ;
   Serial.println(amt) ;
   Serial.println(acos(amt)*180 / M_PI) ;
   #endif
@@ -161,18 +170,18 @@ float AVector::angleBetween( AVector *v ) const {
 
 }
 
-float AVector::angleBetweenFast( AVector *v ) const {
+float AVector::angleBetweenFast( int x, int y ) const {
   // We get NaN if we pass in a zero vector which can cause problems
   // Zero seems like a reasonable angle between a (0,0) vector and something else
   if (_x == 0 && _y == 0) return 0;
-  if (v->x() == 0 && v->y() == 0) return 0;
+  if ( x == 0 && y == 0) return 0;
   // This should be a number between -1 and 1, since it's "normalized"
-  float amt = dot( v ) * invSqrt( magSq() * v->magSq() ) ;
+  float amt = dot( x, y ) * invSqrt( magSq() * magSq(x, y) ) ;
 
   #ifdef FAST_DEBUG
   Serial.println(dot(v)) ;
   Serial.println(mag()) ;
-  Serial.println(v->mag()) ;
+  Serial.println(mag(x, y)) ;
   Serial.println(amt) ;
   Serial.println(acos(amt)*180 / M_PI) ;
   #endif
@@ -188,14 +197,12 @@ float AVector::angleBetweenFast( AVector *v ) const {
   return fast_acos( amt ) ;
 }
 
-float AVector::angleBetween( int x, int y ) const {
-  AVector returnVector( x, y ) ;
-  return angleBetween( &returnVector ) ;
+float AVector::angleBetween( AVector *v ) const {
+  return angleBetween( v->x(), v->y() ) ;
 }
 
-float AVector::angleBetweenFast( int x, int y ) const {
-  AVector returnVector( x, y ) ;
-  return angleBetweenFast( &returnVector ) ;
+float AVector::angleBetweenFast( AVector *v ) const {
+  return angleBetweenFast( v->x(), v->y() ) ;
 }
 
 AVector AVector::rotate( float theta ) {

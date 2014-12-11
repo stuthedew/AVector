@@ -27,42 +27,52 @@ class AVector {
 
 public:
 
-            AVector( int x = 0, int y = 0 ) ;
+  AVector( int x = 0, int y = 0 ) ;
 
-            AVector         add( int x, int y ) ;
-            AVector         add( AVector * ) ;
-            AVector         sub( int x, int y ) ;
-            AVector         sub( AVector * ) ;
-            AVector         mult( int multiplicand ) ;
-            AVector         div( int divisor ) ;
-            AVector         setMag( float magnitude ) ;
-            AVector         rotate( float theta ) ;
-            AVector         fromAngle( float theta ) ;
+  AVector
+    add( int x, int y ) ,
+    add( AVector * ) ,
+    sub( int x, int y ) ,
+    sub( AVector * ) ,
+    mult( int multiplicand ) ,
+    div( int divisor ) ,
+    setMag( float magnitude ) ,
+    rotate( float theta ) ,
+    fromAngle( float theta ) ;
 
-            float           distance( int x, int y ) const ;
-            float           distance( AVector * ) const ;
-            float           mag( void ) const ;
-            float           heading( void ) const ;
-            float           angleBetween( AVector * ) const ;
-            float           angleBetween( int x, int y ) const ;
-            float           angleBetweenFast( AVector * ) const ;
-            float           angleBetweenFast( int x, int y ) const ;
-            float           dot( int x, int y ) const ;
-            float           dot( AVector * ) const ;
+  float
+    distance( int x, int y ) const,
+    distance( AVector * ) const,
+    mag( void ) const ,
+    mag( int x, int y ) const ,
+    heading( void ) const,
+    angleBetween( AVector * ) const ,
+    angleBetween( int x, int y ) const ,
+    angleBetweenFast( AVector * ) const ,
+    angleBetweenFast( int x, int y ) const ,
+    dot( int x, int y ) const ,
+    dot( AVector * ) const ;
 
-            int             x( void ) const ;
-            int             y( void ) const ;
-            int             lerp( AVector *, int x ) const ;
 
-            void            set( int x, int y ) ;
-            void            set( AVector * ) ;
 
-  unsigned  long            magSq( void ) const ;
+  int
+    x( void ) const ,
+    y( void ) const ,
+    lerp( AVector *, int x ) const ;
+
+  void
+    set( int x, int y ) ,
+    set( AVector * ) ;
+
+  unsigned long
+    magSq( void ) const ,
+    magSq( int x, int y ) const ;
 
 
 
 private:
-            int            _x ;
-            int            _y ;
+  int
+    _x ,
+    _y ;
 
 };

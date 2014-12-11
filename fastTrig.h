@@ -34,6 +34,21 @@ const int16_t acos_lookup[][2] PROGMEM = {
   { 940, 20 },  { 970, 14 },  { 990,  8 },  { 999,  0 }
 } ;
 
+
+/// Multiplication/bit shift pair to avoid floats if possible.
+/// e.g.
+///   pi ~= 3.14 ~= 22/7
+///   Find a power of 2 that is close to a multiple of 7 (bit shifts are cheap)
+///   7*73 = 511 ~= 512 = 2^9
+
+
+typedef struct divisor_t {
+  int16_t multiplicand ;
+  uint8_t shift ;
+
+} divisor_t;
+
+
 /// Lookup table for linear interpolation divisor between points on acos
 /// lookup table using multiplication and shift. =~ 1/(x2 - x1)
 /// [][0] = Multiplicand.
@@ -48,35 +63,19 @@ const int16_t acos_lookup[][2] PROGMEM = {
 ///   17 * {15} = 255 ~= 256 = 2^*9*
 ///   (89 - 90)/(17 - 0) ~= ((val * {15}) >> *9*)
 ///
-///       val         val /    Difference acutal
+///       val         val /         Difference acutal
 ///   -----------   ----------    ---------------------
-///        2        3.1416           0%
-///        8      3.1429          0.04%
-///       12    3.1367            0.16%
+///        2        3.1416                 0%
+///        8        3.1429                0.04%
+///       12        3.1367                0.16%
 
-const int16_t lerp_divisor_lookup[][2] PROGMEM = {
+const divisor_t DIVISOR_TABLE[] PROGMEM = {
   { 0  , 90 },  { 17, 89  },  { 35 , 88 },  { 105, 84 },
   { 208, 78 },  { 358, 69 },  { 407, 66 },  { 530, 58 },
   { 720, 44 },  { 819, 35 },  { 883, 28 },  { 920, 23 },
   { 940, 20 },  { 970, 14 },  { 990,  8 },  { 999,  0 }
-} ;
+};
 
-
-
-/// Multiplication/bit shift pair to avoid floats if possible.
-/// e.g.
-///   pi ~= 3.14 ~= 22/7
-///   Find a power of 2 that is close to a multiple of 7 (bit shifts are cheap)
-///   7*73 = 511 ~= 512 = 2^9
-
-
-typedef struct divisor_t {
-  const int16_t *multiplicand ;
-  const uint8_t *shift ;
-
-  divisor_t( int16_t* const m, uint8_t* const s ):multiplicand( m ),shift( s ){}
-
-} divisor_t;
 
 
 /// Get inverse square root of number using fast inverse square root algorithm
