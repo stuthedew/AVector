@@ -4,11 +4,11 @@
 #include <math.h>
 
 
-#define X1 530
-#define X2 720
+#define X1 940
+#define X2 970
 
-#define MULT_VAL     345
-#define SHIFT_VAL    16
+#define MULT_VAL     273
+#define SHIFT_VAL    13
 
 const long num_tests = 10000000;
 
