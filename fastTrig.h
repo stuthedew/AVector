@@ -70,10 +70,25 @@ typedef struct divisor_t {
 ///       12        3.1367                0.16%
 
 const divisor_t DIVISOR_TABLE[] PROGMEM = {
-  { 0  , 90 },  { 17, 89  },  { 35 , 88 },  { 105, 84 },
-  { 208, 78 },  { 358, 69 },  { 407, 66 },  { 530, 58 },
-  { 720, 44 },  { 819, 35 },  { 883, 28 },  { 920, 23 },
-  { 940, 20 },  { 970, 14 },  { 990,  8 },  { 999,  0 }
+
+// { Mult, shift }
+// for 1/(x2 - x1) used in lerp function (linear interpolation)
+
+  { 15 ,  8 },        // x2 = acos_lookup[1][0]   x1 = acos_lookup[0][0]
+{ 57 , 10 },        // x2 = acos_lookup[2][0]   x1 = acos_lookup[1][0]
+  { 117 , 13 },        // x2 = acos_lookup[3][0]   x1 = acos_lookup[2][0]
+{ 159, 14 },        // x2 = acos_lookup[4][0]   x1 = acos_lookup[3][0]
+  { 133, 14 },        // x2 = acos_lookup[5][0]   x1 = acos_lookup[4][0]
+{ 345, 16 },        // x2 = acos_lookup[6][0]   x1 = acos_lookup[5][0]
+  { 407, 66 },        // x2 = acos_lookup[7][0]   x1 = acos_lookup[6][0]
+  { 530, 58 },        // x2 = acos_lookup[8][0]   x1 = acos_lookup[7][0]
+  { 819, 35 },        // x2 = acos_lookup[9][0]   x1 = acos_lookup[8][0]
+  { 883, 28 },        // x2 = acos_lookup[10][0]  x1 = acos_lookup[9][0]
+  { 920, 23 },        // x2 = acos_lookup[11][0]  x1 = acos_lookup[10][0]
+  { 940, 20 },        // x2 = acos_lookup[12][0]  x1 = acos_lookup[11][0]
+  { 970, 14 },        // x2 = acos_lookup[13][0]  x1 = acos_lookup[12][0]
+  { 990,  8 },        // x2 = acos_lookup[14][0]  x1 = acos_lookup[13][0]
+  { 999,  0 }         // x2 = acos_lookup[15][0]  x1 = acos_lookup[14][0]
 };
 
 
