@@ -23,6 +23,7 @@
 #include <math.h>
 
 
+
 class AVector {
 
 public:
